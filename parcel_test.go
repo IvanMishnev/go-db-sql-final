@@ -57,9 +57,8 @@ func TestAddGetDelete(t *testing.T) {
 	require.NoError(t, err)
 
 	_, err = store.Get(id)
-	expectedError := sql.ErrNoRows.Error()
-	actualError := err
-	require.ErrorContains(t, actualError, expectedError)
+
+	require.ErrorContains(t, err, sql.ErrNoRows.Error())
 }
 
 // TestSetAddress проверяет обновление адреса
@@ -86,9 +85,7 @@ func TestSetAddress(t *testing.T) {
 	actualParcel, err := store.Get(id)
 	require.NoError(t, err)
 
-	expectedAddress := newAddress
-	actualAddress := actualParcel.Address
-	require.Equal(t, expectedAddress, actualAddress)
+	require.Equal(t, newAddress, actualParcel.Address)
 }
 
 // TestSetStatus проверяет обновление статуса
@@ -114,9 +111,7 @@ func TestSetStatus(t *testing.T) {
 	actualParcel, err := store.Get(id)
 	require.NoError(t, err)
 
-	expectedstatus := ParcelStatusSent
-	actualStatus := actualParcel.Status
-	require.Equal(t, expectedstatus, actualStatus)
+	require.Equal(t, ParcelStatusSent, actualParcel.Status)
 }
 
 // TestGetByClient проверяет получение посылок по идентификатору клиента
@@ -162,7 +157,6 @@ func TestGetByClient(t *testing.T) {
 		expectedParcel, ok := parcelMap[parcel.Number]
 		require.True(t, ok)
 
-		actualParcel := parcel
-		require.EqualValues(t, expectedParcel, actualParcel)
+		require.EqualValues(t, expectedParcel, parcel)
 	}
 }
